@@ -7,12 +7,12 @@ It enables users to build interactive web applications with ease.
 <summary>Why Canvas?</summary>
 
 We built this platform to simplify the deployment of small Python web apps, especially those developed using **LLM agents (co-pilots)** or **Generative AI IDEs**.
-The goal is to make app hosting easy and accessible for everyone.
+The goal is to make app deployment easy and accessible for everyone.
 
 </details>
 
 <details >
-<summary>Who is this platform for</summary>
+<summary>Who is this platform for?</summary>
 
 - Makers, hobbyists, and developers who love to build and run their own custom apps.
 - Anyone looking to deploy apps on personal devices like Raspberry Pi or similar hardware.
@@ -41,6 +41,7 @@ The goal is to make app hosting easy and accessible for everyone.
 
 # Plugins
 - [Home](https://github.com/binodmx/canvas/blob/main/data/plugins/Home.py)
+- [MarkdownEditor](https://github.com/binodmx/canvas/blob/main/data/plugins/MarkdownEditor.py)
 - [PasteBin](https://github.com/binodmx/canvas/blob/main/data/plugins/PasteBin.py)
 - [PluginManager](https://github.com/binodmx/canvas/blob/main/data/plugins/PluginManager.py)
 - [WorldMap](https://github.com/binodmx/canvas/blob/main/data/plugins/WorldMap.py)
