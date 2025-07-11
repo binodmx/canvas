@@ -44,7 +44,6 @@ def delete_scheduled_jobs(job_ids):
             job_id += 1
             continue
         crontab_input += line
-    ui.notify(f'crontab_input: {crontab_input}')
     crontab_edit = subprocess.run(f'echo "{crontab_input}" | crontab -', shell=True, capture_output=True, text=True)
     if crontab_edit.returncode == 0:
         return True
