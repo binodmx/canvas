@@ -69,7 +69,7 @@ class PluginManager:
 
                         # Code editor container
                         with ui.column().classes('w-full gap-4 mt-4'):
-                            code_editor = ui.textarea(value='').classes('w-full font-mono').style('min-height: 250px')
+                            code_editor = ui.codemirror(language='Python').classes('w-full font-mono').style('min-height: 250px')
                             
                             # Save button
                             with ui.row().classes('w-full justify-end'):
