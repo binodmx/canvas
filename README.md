@@ -44,6 +44,7 @@ The goal is to make app deployment easy and accessible for everyone.
 - [MarkdownEditor](https://github.com/binodmx/canvas/blob/main/data/plugins/MarkdownEditor.py)
 - [PasteBin](https://github.com/binodmx/canvas/blob/main/data/plugins/PasteBin.py)
 - [PluginManager](https://github.com/binodmx/canvas/blob/main/data/plugins/PluginManager.py)
+- [Scheduler](https://github.com/binodmx/canvas/blob/main/data/plugins/Scheduler.py)
 - [WorldMap](https://github.com/binodmx/canvas/blob/main/data/plugins/WorldMap.py)
 
 # Plugin Development Guide
