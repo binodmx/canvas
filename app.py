@@ -13,4 +13,4 @@ plugin_spec = importlib.util.spec_from_file_location(config['home'], f"{plugin_p
 plugin = importlib.util.module_from_spec(plugin_spec)
 plugin_spec.loader.exec_module(plugin)
 
-ui.run(title=config['title'])
+ui.run(title=config['title'], favicon='🔬')
