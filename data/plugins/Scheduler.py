@@ -1,11 +1,11 @@
-###############################################################################
+################################################################################
 # Scheduler
 # 
 # This plugin allows you to schedule python functions to run at specific times.
 # It uses the crontab command to schedule the jobs.
 # Python functions should be stored in the data/functions directory.
 # If crond is not running, run `crond` to start it.
-###############################################################################
+################################################################################
 
 from nicegui import ui
 import subprocess
