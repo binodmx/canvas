@@ -61,19 +61,65 @@ print("Loaded Plugin IDs:", plugin_ids)
 
 @ui.page('/')
 def index():
+    ui.add_head_html('''
+       <style>
+            .q-expansion-item .q-item__section--avatar {
+                min-width: unset;
+            }
+            .q-expansion-item .q-item__section--avatar .q-icon {
+                font-size: 1.125rem;
+            }
+            .sensor-card {
+                background: linear-gradient(180deg, #bfcddc 0%, #3c8fcb 100%);
+                border-radius: 15px;
+                padding: 20px;
+                margin: 10px 0;
+                color: white;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            }
+        </style>
+    ''')
+
     with ui.header().classes('bg-primary text-white h-16'):
-        with ui.row().classes('w-full h-full items-center justify-between px-4'):
+        with ui.row().classes('w-full h-full items-center px-4'):
+            ui.button(on_click=lambda: left_drawer.toggle(), icon='menu').props('flat color=white')
             ui.link('Canvas', '/').classes('no-underline text-2xl font-bold text-white')
+            ui.space()
+            ui.icon('account_circle').classes('text-3xl')
+            
+
+    with ui.left_drawer(top_corner=False, bottom_corner=False).style('background-color: #d7e3f4') as left_drawer:
+        with ui.link(target='/', new_tab=False).classes('no-underline items-center gap-4 px-4 py-3 w-full hover:bg-[#bfcddc] cursor-pointer transition-colors'):
+            with ui.row().classes('items-center'):
+                ui.icon('home').classes('text-lg text-black')
+                ui.label('Home').classes('text-lg text-black')
+        ui.separator().classes('my-0')
+        with ui.expansion('Editors', icon='edit', value=False).classes('w-full text-lg text-black'):
+            with ui.link(target='/BibTexParser', new_tab=False).classes('no-underline items-center gap-4 px-4 py-3 w-full hover:bg-[#bfcddc] cursor-pointer transition-colors'):
+                with ui.row():
+                    ui.icon('menu_book').classes('text-lg text-black')
+                    ui.label('BibTex Parser').classes('text-lg text-black')
+            with ui.link(target='/MarkdownEditor', new_tab=False).classes('no-underline items-center gap-4 px-4 py-3 w-full hover:bg-[#bfcddc] cursor-pointer transition-colors'):
+                with ui.row():
+                    ui.icon('wysiwyg').classes('text-lg text-black')
+                    ui.label('Markdown Editor').classes('text-lg text-black')
+            with ui.link(target='/MermaidEditor', new_tab=False).classes('no-underline items-center gap-4 px-4 py-3 w-full hover:bg-[#bfcddc] cursor-pointer transition-colors'):
+                with ui.row():
+                    ui.icon('account_tree').classes('text-lg text-black')
+                    ui.label('Mermaid Editor').classes('text-lg text-black')
+            with ui.link(target='/TextEditor', new_tab=False).classes('no-underline items-center gap-4 px-4 py-3 w-full hover:bg-[#bfcddc] cursor-pointer transition-colors'):
+                with ui.row():
+                    ui.icon('text_fields').classes('text-lg text-black')
+                    ui.label('Text Editor').classes('text-lg text-black')
+        with ui.link(target='/PluginManager', new_tab=False).classes('no-underline items-center gap-4 px-4 py-3 w-full hover:bg-[#bfcddc] cursor-pointer transition-colors'):
+            with ui.row().classes('items-center'):
+                ui.icon('extension').classes('text-lg text-black')
+                ui.label('Plugin Manager').classes('text-lg text-black')
 
     with ui.column().classes('w-full items-center'):
         with ui.row().classes('gap-4 w-full'):
             for plugin_id in plugin_ids:
-                with ui.card().classes('w-full md:w-1/2 lg:w-1/3 xl:w-1/5'):
-                    with ui.link(target=f'/{plugin_id}', new_tab=False):
+                with ui.link(target=f'/{plugin_id}', new_tab=False).classes('no-underline w-full md:w-1/2 lg:w-1/3 xl:w-1/5'):
+                    with ui.card().classes('sensor-card'):
                         with ui.card_section():
                             ui.label(plugin_id).classes('text-xl font-bold')
-                    with ui.row().classes('ml-auto'):
-                        ui.button(icon='delete', color="negative", on_click=lambda pid=plugin_id: show_delete_dialog(pid)).classes('rounded-full w-9')
-
-            with ui.card().classes('w-full md:w-1/2 lg:w-1/3 xl:w-1/5 h-36 justify-center'):
-                ui.button(icon='add', color="primary", on_click=show_upload_dialog).props('fab').classes("mx-auto")
