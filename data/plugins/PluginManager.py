@@ -2,6 +2,8 @@ from nicegui import ui
 import os
 import glob
 
+plugin_dir = "data/plugins"
+
 class PluginManager:
     def __init__(self):
         @ui.page('/PluginManager')
@@ -11,11 +13,11 @@ class PluginManager:
                     ui.link('Canvas', '/').classes('no-underline text-2xl font-bold text-white')
                     
             def get_plugins():
-                plugins = glob.glob('./data/plugins/*.py')
-                return [os.path.basename(p) for p in plugins]
+                plugins = glob.glob(f'./{plugin_dir}/*.py')
+                return sorted([os.path.basename(p) for p in plugins])
 
             def handle_upload(event):
-                with open(f'./data/plugins/{event.name}', 'wb') as f:
+                with open(f'./{plugin_dir}/{event.name}', 'wb') as f:
                     f.write(event.content.read())
                 ui.notify(f'Uploaded plugin: {event.name}')
                 # Refresh the plugin list
@@ -28,7 +30,7 @@ class PluginManager:
                     code_editor.value = ''
                     return
                 try:
-                    with open(f'./data/plugins/{plugin_name}', 'r') as f:
+                    with open(f'./{plugin_dir}/{plugin_name}', 'r') as f:
                         code_editor.value = f.read()
                     ui.notify(f'Loaded plugin: {plugin_name}')
                 except Exception as e:
@@ -40,7 +42,7 @@ class PluginManager:
                     ui.notify('Please select a plugin first!', color='warning')
                     return
                 try:
-                    with open(f'./data/plugins/{plugin_select.value}', 'w') as f:
+                    with open(f'./{plugin_dir}/{plugin_select.value}', 'w') as f:
                         f.write(code_editor.value)
                     ui.notify(f'Saved plugin: {plugin_select.value}')
                 except Exception as e:
@@ -51,9 +53,9 @@ class PluginManager:
                 
                 # Upload section
                 with ui.card().classes('w-full'):
-                    with ui.card_section():
+                    with ui.card_section().classes('w-full'):
                         ui.label('Upload New Plugin').classes('text-lg font-bold')
-                        ui.upload(on_upload=handle_upload, auto_upload=True, label="Upload plugin").classes('w-full')
+                        ui.upload(on_upload=handle_upload, auto_upload=True, label="Upload plugin").classes('w-full mt-3')
 
                 # Edit section
                 with ui.card().classes('w-full'):
