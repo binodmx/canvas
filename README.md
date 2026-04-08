@@ -1,61 +1,56 @@
 # Canvas
-
-Canvas is a docker-based platform that allows users to deploy nicegui-based python web apps (plugins). 
-It enables users to build interactive web applications with ease.
-
-<details open>
-<summary>Why Canvas?</summary>
-
-We built this platform to simplify the deployment of small Python web apps, especially those developed using **LLM agents (co-pilots)** or **Generative AI IDEs**.
-The goal is to make app deployment easy and accessible for everyone.
-
-</details>
-
-<details >
-<summary>Who is this platform for?</summary>
-
-- Makers, hobbyists, and developers who love to build and run their own custom apps.
-- Anyone looking to deploy apps on personal devices like Raspberry Pi or similar hardware.
-
-</details>
-
-<details>
-<summary>What makes it different?</summary>
-
-- Quick and easy deployment — no steep learning curve.
-- Optimized for small Python web apps powered by LLMs or GenAI tools.
-- Perfect for personal devices — from Raspberry Pi to other lightweight servers.
-
-</details>
+Canvas is a Docker-based platform for deploying Python and NiceGUI-based single-page applications. 
+It makes it easy to build and run interactive web apps, particularly those created with LLM agents, co-pilots, or AI IDEs. 
+Canvas is designed for makers, hobbyists, and developers who want to ship custom apps quickly, whether on a cloud server or personal hardware like a Raspberry Pi.
 
 # Getting Started
 
-1. Make sure you have Docker installed on your machine.
-2. Run the following command to start the Canvas.
-    ```
+## Running Docker Image
+
+1. Make sure you have Docker installed on your host machine.
+2. Run the following command to start the Canvas docker container.
+    ```bash
     docker run -d -p 8080:8080 -v $(pwd):/app/data --name canvas binodmx/canvas
     ```
 3. Open your web browser and navigate to `http://localhost:8080`.
-4. You can now upload [available plugins](#plugins) or your own plugin.
+4. You can now upload [available plugins](#plugins), or your own plugin that follows the [plugin development guide](#plugin-development-guide).
+5. View uploaded plugin on `http://localhost:8080/<PluginName>`.
+
+## Running Python App
+
+1. Make sure you have Python installed on your host machine.
+2. Run the following commands to setup and run Canvas Python app.
+    ```bash
+    git clone https://github.com/binodmx/canvas.git
+    cd canvas
+    pip install -r requirements.txt
+    python app.py
+    ```
+3. Open your web browser and navigate to `http://localhost:8080`.
+4. You can now upload [available plugins](#plugins), or your own plugin that follows the [plugin development guide](#plugin-development-guide).
 5. View uploaded plugin on `http://localhost:8080/<PluginName>`.
 
 # Plugins
-- [Home](https://github.com/binodmx/canvas/blob/main/data/plugins/Home.py)
-- [MarkdownEditor](https://github.com/binodmx/canvas/blob/main/data/plugins/MarkdownEditor.py)
-- [PasteBin](https://github.com/binodmx/canvas/blob/main/data/plugins/PasteBin.py)
-- [PluginManager](https://github.com/binodmx/canvas/blob/main/data/plugins/PluginManager.py)
-- [Scheduler](https://github.com/binodmx/canvas/blob/main/data/plugins/Scheduler.py)
-- [WorldMap](https://github.com/binodmx/canvas/blob/main/data/plugins/WorldMap.py)
 
-# Plugin Development Guide
+## Published Plugins
+| Name | Description |
+| ---- | ----------- |
+| [Home](https://github.com/binodmx/canvas/blob/main/data/plugins/Home.py)                      | Landing page listing down all the available plugins. |
+| [PluginManager](https://github.com/binodmx/canvas/blob/main/data/plugins/PluginManager.py)    | Add or edit plugins with built-in code editor to edit plugin's code. |
+| [MarkdownEditor](https://github.com/binodmx/canvas/blob/main/data/plugins/MarkdownEditor.py)  | Real-time markdown editor. |
+| [PasteBin](https://github.com/binodmx/canvas/blob/main/data/plugins/PasteBin.py)              | Save texts and retrieve from any device. |
 
-## 1. Plugin Structure
+## Plugin Development Guide
+
+### 1. Plugin Structure
 - Plugins must be Python files (`.py` extension).
 - Plugin filename should be in PascalCase (e.g., `MyPlugin.py`).
 - Each plugin must import `nicegui.ui`.
 - The plugin must define a main class that matches the filename (e.g., class `MyPlugin` in `MyPlugin.py`).
-- The class must have an `__init__` method.
+- The main class must have an `__init__` method.
 - Inside `__init__`, define a page route using `@ui.page('/<PluginName>')`.
+- See [UI Components](#2-ui-components), [Functions](#3-functions), and [Data Storage](#4-data-storage) 
+- Explore already published [plugins](#plugins) for more information.
 
     ```python
     from nicegui import ui
@@ -67,8 +62,10 @@ The goal is to make app deployment easy and accessible for everyone.
                 # Your UI code goes here
                 pass
     ```
-## 2. UI Components
-  - Use NiceGUI components to build your interface.
+
+### 2. UI Components
+- Use NiceGUI components to build your interface.
+
     ```python
     class MyPlugin:
         def __init__(self):
@@ -86,10 +83,11 @@ The goal is to make app deployment easy and accessible for everyone.
                         text_input = ui.textarea(placeholder="Type text here").classes('w-full text-base')
     ```
 
-## 3. Plugin Functions
-- Define functions to handle user interactions.
+### 3. Functions
+- You can define functions to handle user interactions.
 - Functions can be defined within the `__init__` method or outside the plugin class.
 - Functions as instance, class, or static methods are also allowed even though not recommended.
+
     ```python 
     # Utility functions defined outside the class
     def util_function():
@@ -99,21 +97,27 @@ The goal is to make app deployment easy and accessible for everyone.
         def __init__(self):
             @ui.page('/MyPlugin')
             def index():
-                # UI code...
-                
-                # Button click handler defined inside the __init__ method
+                # Handlers defined inside the __init__ method
                 def handle_button_click():
                     ui.notify('Button clicked!')
+
+                # UI structural code...
                 
+                # UI functional code      
                 ui.button('Click Me', on_click=handle_button_click)
     ```
   
-## 4. Data Storage
-- Use the `./data/cache/` directory for temporary data storage.
+### 4. Data Storage
+- Use `./data/cache/` directory for temporary data storage.
+- Use `./data/db/` directory to store databases as persistent data storage.
+- Use `./data/configs/` directory to store configurations.
+
     ```python
     import json
     import os
+    import sqlite3
     
+    # Load cache example
     def load_cache():
         try:
             with open('./data/cache/my_plugin_cache.json', 'r') as f:
@@ -123,19 +127,13 @@ The goal is to make app deployment easy and accessible for everyone.
             save_cache(default_data)
             return default_data
     
+    # Save cache example
     def save_cache(data):
         os.makedirs('./data/cache', exist_ok=True)
         with open('./data/cache/my_plugin_cache.json', 'w') as f:
             json.dump(data, f)
-  
-    class MyPlugin:
-        ...
-    ```
-- Use the `./data/db/` directory to store databases as persistent data storage.
-    ```python
-    import os
-    import sqlite3
-    
+
+    # Update db example
     def update_db(data):
         try:
             # Create a connection to a SQLite database
@@ -151,10 +149,10 @@ The goal is to make app deployment easy and accessible for everyone.
             cursor.execute(f"INSERT INTO {table_name} VALUES (?, ?)", [data[0], data[1]])
             
             # Update data in the table
-            # cursor.execute(f"UPDATE {table_name} SET field2 = ? WHERE field1 = ?", [data[1], data[0]])
+            cursor.execute(f"UPDATE {table_name} SET field2 = ? WHERE field1 = ?", [data[1], data[0]])
     
             # Delete data from the table
-            # cursor.execute(f"DELETE FROM {table_name} WHERE field1 = ?", [data[0]])
+            cursor.execute(f"DELETE FROM {table_name} WHERE field1 = ?", [data[0]])
   
             # Commit the changes
             connection.commit()
@@ -164,6 +162,7 @@ The goal is to make app deployment easy and accessible for everyone.
         except Exception as e:
             print(f"Error saving to database: {e}")
 
+    # Read db example
     def get_db():
         try:
             # Create a connection to a SQLite database
@@ -185,7 +184,12 @@ The goal is to make app deployment easy and accessible for everyone.
         except Exception as e:
             print(f"Error reading from database: {e}")
             return None
-    
+  
     class MyPlugin:
         ...
     ```
+
+# Contributing
+Want to publish a plugin, report a bug, or improve documentation? Excellent! fork this repository and start contributing.
+
+Love Canvas? Give this repo a star ⭐
