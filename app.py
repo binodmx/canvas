@@ -4,7 +4,7 @@ import importlib.util
 import os
 
 # Load config
-with open('data/config/config.json') as f:
+with open('data/configs/config.json') as f:
     config = json.load(f)
 
 # Dynamically import Home plugin as the home page
