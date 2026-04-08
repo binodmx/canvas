@@ -3,3 +3,5 @@ __pycache__
 .idea
 .venv
 tests
+data/configs/*
+!data/configs/config.json
