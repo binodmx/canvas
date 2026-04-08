@@ -7,7 +7,7 @@ WORKDIR /app
 
 COPY app.py app.py
 COPY requirements.txt requirements.txt
-COPY data/config/config.json default/config.json
+COPY data/configs/config.json default/config.json
 COPY data/plugins/Home.py default/Home.py
 
 # Install jq for JSON parsing
@@ -18,15 +18,15 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8080
 
 CMD ["/bin/sh", "-c", "\
-    mkdir -p /app/data/config &&\
-    if [ ! -f /app/data/config/config.json ]; then\
-        cp /app/default/config.json /app/data/config/;\
+    mkdir -p /app/data/configs &&\
+    if [ ! -f /app/data/configs/config.json ]; then\
+        cp /app/default/config.json /app/data/configs/;\
     fi &&\
     mkdir -p /app/data/plugins &&\
-    HOME=$(jq -r '.home' /app/data/config/config.json) &&\
+    HOME=$(jq -r '.home' /app/data/configs/config.json) &&\
     if [ ! -f /app/data/plugins/${HOME}.py ]; then\
         cp /app/default/Home.py /app/data/plugins/;\
-        jq '.home = \"Home\"' /app/data/config/config.json > /app/data/config/config.json.tmp &&\
-        mv /app/data/config/config.json.tmp /app/data/config/config.json;\
+        jq '.home = \"Home\"' /app/data/configs/config.json > /app/data/configs/config.json.tmp &&\
+        mv /app/data/configs/config.json.tmp /app/data/configs/config.json;\
     fi &&\
     exec python app.py"]
