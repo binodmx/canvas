@@ -34,11 +34,12 @@ Canvas is designed for makers, hobbyists, and developers who want to ship custom
 
 ## Published Plugins
 | Name | Description |
-| ---- | ----------- |
+| --------------------------------------------------------------------------------------------- | ----------- |
 | [Home](https://github.com/binodmx/canvas/blob/main/data/plugins/Home.py)                      | Landing page listing down all the available plugins. |
 | [PluginManager](https://github.com/binodmx/canvas/blob/main/data/plugins/PluginManager.py)    | Add or edit plugins with built-in code editor to edit plugin's code. |
 | [MarkdownEditor](https://github.com/binodmx/canvas/blob/main/data/plugins/MarkdownEditor.py)  | Real-time markdown editor. |
 | [PasteBin](https://github.com/binodmx/canvas/blob/main/data/plugins/PasteBin.py)              | Save texts and retrieve from any device. |
+| [Clock](https://github.com/binodmx/canvas/blob/main/data/plugins/Clock.py)                    | World clock displaying multiple time zones with add/remove support. |
 
 ## Plugin Development Guide
 
