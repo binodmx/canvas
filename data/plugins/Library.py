@@ -260,7 +260,7 @@ class Library:
                             ).classes('w-full').style('height: calc(80vh - 52px);')
                         elif state['content']:
                             with ui.scroll_area().classes('w-full').style('height: calc(80vh - 52px);'):
-                                ui.markdown(state['content'], extras=['mermaid']).classes('p-4').style('font-size: 0.9375rem; color: #1C1C1E; line-height: 1.6;')
+                                ui.markdown(state['content'], extras=['mermaid', 'tables', 'fenced-code-blocks', 'alerts', 'latex', 'strike', 'admonitions']).classes('p-4').style('font-size: 0.9375rem; color: #1C1C1E; line-height: 1.6;')
                         else:
                             with ui.column().classes('w-full h-full items-center justify-center').style('height: calc(80vh - 52px);'):
                                 ui.icon('book_2').style('font-size: 2.5rem; color: #C7C7CC;')
