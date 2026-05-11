@@ -190,7 +190,4 @@ Canvas is designed for makers, hobbyists, and developers who want to ship custom
         ...
     ```
 
-# Contributing
-Want to publish a plugin, report a bug, or improve documentation? Excellent! fork this repository and start contributing.
-
 Love Canvas? Give this repo a star ⭐
